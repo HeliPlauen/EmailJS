@@ -1,0 +1,45 @@
+{% extends "mail/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <h2>{{ request.user.email }}</h2>
+
+    <button class="btn btn-sm btn-outline-primary" id="inbox" style="border-color:black; color:black">Inbox</button>
+    <button class="btn btn-sm btn-outline-primary" id="compose" style="border-color:black; color:black">Compose</button>
+    <button class="btn btn-sm btn-outline-primary" id="sent" style="border-color:black; color:black">Sent</button>
+    <button class="btn btn-sm btn-outline-primary" id="archived" style="border-color:black; color:black">Archived</button>
+    <a class="btn btn-sm btn-outline-primary" href="{% url 'logout' %}" style="border-color:black; color:black">Log Out</a>
+    <hr>
+
+    <div id="header"></div>
+
+    <div id="emails-view"></div>
+
+    <div id="email-body"></div>
+
+    <button class="btn btn-sm btn-outline-primary" id="ansver" style="border-color:black; color:black">Answer the letter</button><br>
+
+    <button class="btn btn-sm btn-outline-primary" id="to_archive" style="border-color:black; color:black">Add email to the archive</button>
+    <button class="btn btn-sm btn-outline-primary" id="out_off_archive" style="border-color:black; color:black">Get  the letter out of the archive</button>
+
+    <div id="compose-view">
+        <h3>New Email</h3>
+        <form id="compose-form">
+            <div class="form-group">
+                From: <input disabled class="form-control" value="{{ request.user.email }}">
+            </div>
+            <div class="form-group">
+                To: <input id="compose-recipients" class="form-control">
+            </div>
+            <div class="form-group">
+                <input class="form-control" id="compose-subject" placeholder="Subject">
+            </div>
+            <textarea class="form-control" id="compose-body" placeholder="Body"></textarea>
+            <input type="submit" class="btn btn-primary"/>
+        </form>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'mail/inbox.js' %}"></script>
+{% endblock %}
