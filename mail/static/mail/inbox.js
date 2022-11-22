@@ -73,7 +73,7 @@ function compose_email() {
     }
 }
 
-// Getting the letters list ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// Getting the letters list !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 function load_mailbox(mailbox) {
 
     // getting all the letters for our mailbox
@@ -99,8 +99,16 @@ function load_mailbox(mailbox) {
 
         // Hide the email buttons
         document.querySelector('#ansver').style.display = 'none';
-        document.querySelector('#to_archive').style.display = 'none';
-        document.querySelector('#out_off_archive').style.display = 'none';
+        if (mailbox == 'inbox') {
+            document.querySelector('#to_archive').style.display = 'block';
+            document.querySelector('#out_off_archive').style.display = 'none';
+        } else if (mailbox == 'archive') {
+            document.querySelector('#to_archive').style.display = 'none';
+            document.querySelector('#out_off_archive').style.display = 'block';
+        } else {
+            document.querySelector('#to_archive').style.display = 'none';
+            document.querySelector('#out_off_archive').style.display = 'none';
+        }        
 
         // Show the mailbox name
         document.querySelector('#header').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
@@ -142,6 +150,9 @@ function load_mailbox(mailbox) {
 
         // Calling for the getting letter from our mailbox function 
         email_onload();
+
+        // Calling for the group-archive function
+        group_archive();
     })
 }
 
@@ -254,7 +265,7 @@ function archive(email) {
             })
 
             // Load the inbox
-            load_mailbox('inbox');
+            load_mailbox('archive');
         }
     }
 }
@@ -275,5 +286,10 @@ function answer(email) {
         document.querySelector('#compose-subject').value = 'Re: ' + newSubject;
         document.querySelector('#compose-body').value = `On ${newTimestampt} ${newRecipient} wrote ${newBody}`;
     }
+}
+
+// The group-archive function
+function group_archive() {
+    // TODO
 }
 
