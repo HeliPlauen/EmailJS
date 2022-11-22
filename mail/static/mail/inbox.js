@@ -8,8 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // By default, load the inbox
     load_mailbox('inbox');
-
-    document.querySelector('#test').addEventListener('click', () => load_mailbox('test'));
 });
 
 // Sending letters +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -78,30 +76,39 @@ function compose_email() {
 // Getting the letters list ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 function load_mailbox(mailbox) {
 
-    // Making email-holder empty
-    document.querySelector('#email-body').innerHTML = '';
-
-    // Show the mailbox and hide other views
-    document.querySelector('#emails-view').style.display = 'block';
-    document.querySelector('#compose-view').style.display = 'none';
-    document.querySelector('#email-body').style.display = 'none';
-
-    // Hide the email buttons
-    document.querySelector('#ansver').style.display = 'none';
-    document.querySelector('#to_archive').style.display = 'none';
-    document.querySelector('#out_off_archive').style.display = 'none';
-
-    // Show the mailbox name
-    document.querySelector('#header').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
-
-    // Making emails list empty befor letters were downloaded
-    document.querySelector('#emails-view').innerHTML = [];
-
     // getting all the letters for our mailbox
     fetch(`/emails/${mailbox}`)
     .then(response => response.json())
     .then(emails => {
 
+        // If mailbox does not exist
+        if (emails.error) {
+            alert(emails.error);
+            console.log(mailbox);
+            console.log(emails.error);
+            return false;
+        }
+
+        // Making email-holder empty
+        document.querySelector('#email-body').innerHTML = '';
+
+        // Show the mailbox and hide other views
+        document.querySelector('#emails-view').style.display = 'block';
+        document.querySelector('#compose-view').style.display = 'none';
+        document.querySelector('#email-body').style.display = 'none';
+
+        // Hide the email buttons
+        document.querySelector('#ansver').style.display = 'none';
+        document.querySelector('#to_archive').style.display = 'none';
+        document.querySelector('#out_off_archive').style.display = 'none';
+
+        // Show the mailbox name
+        document.querySelector('#header').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+
+        // Making emails list empty befor letters were downloaded
+        document.querySelector('#emails-view').innerHTML = [];
+
+        // Creting the div-list
         const emailsList = document.querySelector('#emails-view');
 
         // Filling the mailbox by emails
@@ -110,7 +117,7 @@ function load_mailbox(mailbox) {
             // Creating the new element for each email and filling it by email
             const div = document.createElement('div');
 
-            // If mailbox is 'inbox', else if 'sent', else 'archive'
+            // If mailbox is 'inbox', else if 'sent', else if 'archive', else ERROR
             if (mailbox == 'inbox') {
                 if (email.read === true) {
                     div.style.backgroundColor = 'grey';
@@ -124,7 +131,7 @@ function load_mailbox(mailbox) {
             } else {
                 div.style.backgroundColor = 'grey';
                 div.innerHTML = `<b>${email.sender} - ${email.recipients[0]}</b>: ${email.subject} (${email.timestamp})`;
-            }
+            } 
             div.name = email.id;
 
             console.log(div);
@@ -136,9 +143,6 @@ function load_mailbox(mailbox) {
         // Calling for the getting letter from our mailbox function 
         email_onload();
     })
-    .catch(error => {
-        console.log('Error: ', 'Invalid indox');
-    });
 }
 
 // Getting the letter from our mailbox function ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
