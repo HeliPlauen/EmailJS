@@ -120,16 +120,16 @@ function load_mailbox(mailbox) {
             // If mailbox is 'inbox', else if 'sent', else if 'archive', else ERROR
             if (mailbox == 'inbox') {
                 if (email.read === true) {
-                    div.style.backgroundColor = 'grey';
+                    div.style.backgroundColor = 'lightgrey';
                 } else {
                     div.style.backgroundColor = 'white';
                 }
                 div.innerHTML = `<b>${email.sender}</b>: ${email.subject} (${email.timestamp})`;
             } else if (mailbox == 'sent') {
-                div.style.backgroundColor = 'grey';
+                div.style.backgroundColor = 'lightgrey';
                 div.innerHTML = `<b>${email.recipients[0]}</b>: ${email.subject} (${email.timestamp})`;
             } else {
-                div.style.backgroundColor = 'grey';
+                div.style.backgroundColor = 'lightgrey';
                 div.innerHTML = `<b>${email.sender} - ${email.recipients[0]}</b>: ${email.subject} (${email.timestamp})`;
             } 
             div.name = email.id;

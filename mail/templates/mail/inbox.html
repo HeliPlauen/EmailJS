@@ -4,11 +4,11 @@
 {% block body %}
     <h2>{{ request.user.email }}</h2>
 
-    <button class="btn btn-sm btn-outline-primary" id="inbox" style="border-color:black; color:black">Inbox</button>
-    <button class="btn btn-sm btn-outline-primary" id="compose" style="border-color:black; color:black">Compose</button>
-    <button class="btn btn-sm btn-outline-primary" id="sent" style="border-color:black; color:black">Sent</button>
-    <button class="btn btn-sm btn-outline-primary" id="archived" style="border-color:black; color:black">Archived</button>
-    <a class="btn btn-sm btn-outline-primary" href="{% url 'logout' %}" style="border-color:black; color:black">Log Out</a>
+    <button class="btn btn-sm btn-outline-primary" id="inbox" >Inbox</button>
+    <button class="btn btn-sm btn-outline-primary" id="compose" >Compose</button>
+    <button class="btn btn-sm btn-outline-primary" id="sent" >Sent</button>
+    <button class="btn btn-sm btn-outline-primary" id="archived" >Archived</button>
+    <a class="btn btn-sm btn-outline-primary" href="{% url 'logout' %}" >Log Out</a>
     <hr>
 
     <div id="header"></div>
