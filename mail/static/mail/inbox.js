@@ -148,12 +148,6 @@ function load_mailbox(mailbox) {
 // Getting the letter from our mailbox function ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 function email_onload() {
 
-    console.log("DOWNLOADED!!!");
-
-    // Show the email and hide other views    
-    document.querySelector('#compose-view').style.display = 'none';
-    document.querySelector('#email-body').style.display = 'block';
-
     // Show the chosen email
     const container = document.querySelector('#emails-view');
     const divs = container.querySelectorAll('div');
@@ -166,7 +160,22 @@ function email_onload() {
             fetch(`/emails/${div.name}`)
             .then(response => response.json())
             .then(email => {
+
+                // If such email does not exist
+                if (email.error) {
+                    alert(email.error);
+                    console.log(email);
+                    console.log(email.error);
+                    return false;
+                }
+
+                console.log("DOWNLOADED!!!");
                 console.log(email);
+                console.log(email.error);
+
+                // Show the email and hide other views    
+                document.querySelector('#compose-view').style.display = 'none';
+                document.querySelector('#email-body').style.display = 'block';              
 
                 // Show the answer button if user is recipient
                 document.querySelector('#ansver').style.display = 'block';           
