@@ -67,8 +67,7 @@ function compose_email() {
             }            
 
             // By default, load the inbox
-            load_mailbox('inbox');
-            //return true;
+            load_mailbox('sent');
 
             // If suxcess - submitting form
             document.getElementById("compose-form").requestSubmit("submit");
