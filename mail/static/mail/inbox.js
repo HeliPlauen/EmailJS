@@ -8,10 +8,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // By default, load the inbox
     load_mailbox('inbox');
+
+    document.querySelector('#test').addEventListener('click', () => load_mailbox('test'));
 });
 
 // Sending letters +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 function compose_email() {
+
+    // Stop sending form
+    document.getElementById("compose-form").addEventListener("submit", function (event) {
+        event.preventDefault();
+    });
 
     // Show compose view and hide other views
     document.querySelector('#emails-view').style.display = 'none';
@@ -53,7 +60,19 @@ function compose_email() {
         .then(response => response.json())
         .then(result => {
             console.log(result);
-        });
+            alert(result.message);
+            if (result.message == undefined) {
+                alert(result.error);
+                return false;
+            }            
+
+            // By default, load the inbox
+            load_mailbox('inbox');
+            //return true;
+
+            // If suxcess - submitting form
+            document.getElementById("compose-form").requestSubmit("submit");
+        });        
     }
 }
 
@@ -117,6 +136,9 @@ function load_mailbox(mailbox) {
 
         // Calling for the getting letter from our mailbox function 
         email_onload();
+    })
+    .catch(error => {
+        console.log('Error: ', 'Invalid indox');
     });
 }
 

@@ -11,3 +11,11 @@ textarea {
     margin: 10px;
     border: 1px solid black;
 }
+
+#compose-view > div:hover {
+    background-color: darkgreen;
+}
+
+#compose-view > div:active {
+    background-color: blue;
+}
