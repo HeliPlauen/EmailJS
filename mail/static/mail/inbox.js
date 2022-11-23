@@ -124,25 +124,38 @@ function load_mailbox(mailbox) {
 
             // Creating the new element for each email and filling it by email
             const div = document.createElement('div');
+            const input = document.createElement('input');
+            const button = document.createElement('button');
+
+            // Creqting the checkbox
+            input.type = 'checkbox';
+            input.id = email.id;
+
+            console.log(input);
 
             // If mailbox is 'inbox', else if 'sent', else if 'archive', else ERROR
             if (mailbox == 'inbox') {
                 if (email.read === true) {
-                    div.style.backgroundColor = 'lightgrey';
+                    button.style.backgroundColor = 'lightgrey';
                 } else {
-                    div.style.backgroundColor = 'white';
+                    button.style.backgroundColor = 'white';
                 }
-                div.innerHTML = `<b>${email.sender}</b>: ${email.subject} (${email.timestamp})`;
+                button.innerHTML = `<b>${email.sender}</b>: ${email.subject} (${email.timestamp})`;
             } else if (mailbox == 'sent') {
-                div.style.backgroundColor = 'lightgrey';
-                div.innerHTML = `<b>${email.recipients[0]}</b>: ${email.subject} (${email.timestamp})`;
+                button.style.backgroundColor = 'lightgrey';
+                button.innerHTML = `<b>${email.recipients[0]}</b>: ${email.subject} (${email.timestamp})`;
             } else {
-                div.style.backgroundColor = 'lightgrey';
-                div.innerHTML = `<b>${email.sender} - ${email.recipients[0]}</b>: ${email.subject} (${email.timestamp})`;
+                button.style.backgroundColor = 'lightgrey';
+                button.innerHTML = `<b>${email.sender} - ${email.recipients[0]}</b>: ${email.subject} (${email.timestamp})`;
             } 
-            div.name = email.id;
+            button.name = email.id;
+            //button.classList.add("btn btn-sm btn-outline-primary");
 
-            console.log(div);
+            console.log(button);
+
+            // Appending each button to the div
+            div.append(input);
+            div.append(button);
 
             // Appending each div to the list            
             emailsList.append(div);
@@ -161,14 +174,14 @@ function email_onload() {
 
     // Show the chosen email
     const container = document.querySelector('#emails-view');
-    const divs = container.querySelectorAll('div');
+    const buttons = container.querySelectorAll('button');
 
     console.log(container);
-    console.log(divs);
+    console.log(buttons);
 
-    divs.forEach(function (div) {
-        div.onclick = function () {
-            fetch(`/emails/${div.name}`)
+    buttons.forEach(function (button) {
+        button.onclick = function () {
+            fetch(`/emails/${button.name}`)
             .then(response => response.json())
             .then(email => {
 
@@ -288,8 +301,38 @@ function answer(email) {
     }
 }
 
-// The group-archive function
+// The group-archive function !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 function group_archive() {
-    // TODO
+
+    // Getting ready the chosen emails list to archivation
+    const readyToArchive = [];
+
+    console.log(readyToArchive);
+
+    // Filling the chosen emails list to archivation with emails
+    const container = document.querySelector('#emails-view');
+    container.querySelectorAll('input').forEach(function (input) {
+        input.onclick = function () {
+            fetch(`/emails/${input.id}`)
+                .then(response => response.json())
+                .then(email => {
+                    console.log(input.id);
+                    console.log(email);
+                    readyToArchive.push(email);
+                    console.log(readyToArchive);
+                });
+        }
+    });
+
+    // Making the selected elements archived
+    document.querySelector('#to_archive' || '#out_off_archive').onclick = function () {
+
+        console.log('ARCHIVING');
+
+        for (email of readyToArchive) {
+            archive(email);
+            console.log(email);
+        }
+    };
 }
 
