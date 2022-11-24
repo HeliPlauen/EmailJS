@@ -209,6 +209,7 @@ function email_onload() {
 
                 // Add to the archive/Delete from the archive buttons
                 const recipients = email.recipients;
+                // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 const currentUser = document.querySelector('h2').innerHTML;
 
                 console.log(recipients);
@@ -254,7 +255,7 @@ function email_onload() {
                     console.log(email.archived);
 
                     // Load the inboxes
-                    if (email.archived == true) {
+                    if (email.archived == false) {
                         load_mailbox('archive');
                     } else {
                         load_mailbox('inbox');
@@ -322,20 +323,36 @@ function group_archive() {
     container.querySelectorAll('input').forEach(function (input) {
         input.onclick = function () {
             fetch(`/emails/${input.id}`)
-                .then(response => response.json())
-                .then(email => {
-                    console.log(input.id);
-                    console.log(email);
+            .then(response => response.json())
+            .then(email => {
+                console.log(input.id);
+                console.log(email);
+
+                if (readyToArchive.length != 0) {
+                    for (let i = 0, n = readyToArchive.length; i < n; i++) {
+                        let checkedMail = readyToArchive[i];
+                        if (checkedMail.id == email.id) {
+                            readyToArchive.splice(i, 1);
+                            break;
+                        } else if (checkedMail.id != email.id && i == n - 1) {
+                            readyToArchive.push(email);
+                        } else {
+                            continue;
+                        }
+                    }
+                } else {
                     readyToArchive.push(email);
-                    console.log(readyToArchive);
-                });
+                }                
+
+                console.log(readyToArchive);
+            });
         }
     });
 
     // Making the selected elements archived
     document.querySelector('#archivation_group').onclick = function () {
 
-        if (readyToArchive.length === 0) {
+        if (readyToArchive.length == 0) {
             alert('You have to choose at least one email for achivation!!!');
             return false;
         }
@@ -356,7 +373,7 @@ function group_archive() {
         }
 
         // Load the inboxes
-        if (emailsArchived == true) {
+        if (emailsArchived == false) {
             load_mailbox('archive');
         } else {
             load_mailbox('inbox');
