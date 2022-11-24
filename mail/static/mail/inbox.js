@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent'));
     document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
     document.querySelector('#compose').addEventListener('click', compose_email);
+    document.querySelector('#logout').addEventListener('click', logout);
 
     // By default, load the inbox
     load_mailbox('inbox');
@@ -25,8 +26,6 @@ function compose_email() {
 
     // Hide the email buttons
     document.querySelector('#ansver').style.display = 'none';
-    //document.querySelector('#to_archive').style.display = 'none';
-    //document.querySelector('#out_off_archive').style.display = 'none';
     document.querySelector('#archivation_group').style.display = 'none';
 
     // Clear out composition fields
@@ -100,8 +99,6 @@ function load_mailbox(mailbox) {
 
         // Hide the email buttons
         document.querySelector('#ansver').style.display = 'none';
-        //document.querySelector('#to_archive').style.display = 'none';
-        //document.querySelector('#out_off_archive').style.display = 'none';
         if (mailbox == 'inbox') {            
             document.querySelector('#archivation_group').style.display = 'block';
             document.querySelector('#archivation_group').innerHTML = 'Add emails to the archive';
@@ -208,9 +205,8 @@ function email_onload() {
                 document.querySelector('#archivation_group').style.display = 'block';
 
                 // Add to the archive/Delete from the archive buttons
-                const recipients = email.recipients;
-                // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                const currentUser = document.querySelector('h2').innerHTML;
+                const recipients = email.recipients;      
+                const currentUser = localStorage.getItem('currentUser');
 
                 console.log(recipients);
 
@@ -380,5 +376,12 @@ function group_archive() {
         }
         
     };
+}
+
+// Logout and removeItem from localStorage
+function logout() {
+    localStorage.removeItem('currentUser');
+    var currentUser = localStorage.getItem('currentUser');
+    console.log(currentUser);
 }
 

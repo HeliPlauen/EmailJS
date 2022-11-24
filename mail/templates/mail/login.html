@@ -1,4 +1,5 @@
 {% extends "mail/layout.html" %}
+{% load static %}
 
 {% block body %}
 
@@ -8,17 +9,21 @@
         <div>{{ message }}</div>
     {% endif %}
 
-    <form action="{% url 'login' %}" method="post">
+    <form action="{% url 'login' %}" method="post" id="login_submit">
         {% csrf_token %}
         <div class="form-group">
-            <input autofocus class="form-control" type="email" name="email" placeholder="Email">
+            <input autofocus class="form-control" type="email" name="email" placeholder="Email" id="login_email">
         </div>
         <div class="form-group">
-            <input class="form-control" type="password" name="password" placeholder="Password">
+            <input class="form-control" type="password" name="password" placeholder="Password" id="login_password">
         </div>
-        <input class="btn btn-primary" type="submit" value="Login">
+        <input class="btn btn-primary" type="submit" value="Login" id="login_input">
     </form>
 
     Don't have an account? <a href="{% url 'register' %}">Register here.</a>
 
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'mail/login.js' %}"></script>
 {% endblock %}
