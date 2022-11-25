@@ -73,7 +73,7 @@ function compose_email() {
     }
 }
 
-// Getting the letters list !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// Getting the letters list ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 function load_mailbox(mailbox) {
 
     // getting all the letters for our mailbox
@@ -125,34 +125,55 @@ function load_mailbox(mailbox) {
             const div = document.createElement('div');
             const input = document.createElement('input');
             const button = document.createElement('button');
+            const table = document.createElement('table');
+            const td1 = document.createElement('td');
+            const td2 = document.createElement('td');
+            const td3 = document.createElement('td');
+            const td4 = document.createElement('td');
 
-            // Creqting the checkbox
+            // Filling the checkbox
             input.type = 'checkbox';
             input.id = email.id;
 
             console.log(input);
 
-            // If mailbox is 'inbox', else if 'sent', else if 'archive', else ERROR
+            // Filling the button
             if (mailbox == 'inbox') {
                 if (email.read === true) {
-                    button.style.backgroundColor = 'lightgrey';
+                    button.style.backgroundColor = 'grey';
                 } else {
                     button.style.backgroundColor = 'white';
                 }
-                button.innerHTML = `<b>${email.sender}</b>: ${email.subject} (${email.timestamp})`;
+                //button.innerHTML = `<b>${email.sender}</b>: ${email.subject} (${email.timestamp})`;
             } else if (mailbox == 'sent') {
-                button.style.backgroundColor = 'lightgrey';
-                button.innerHTML = `<b>${email.recipients[0]}</b>: ${email.subject} (${email.timestamp})`;
+                button.style.backgroundColor = 'grey';
+                //button.innerHTML = `<b>${email.recipients[0]}</b>: ${email.subject} (${email.timestamp})`;
             } else {
-                button.style.backgroundColor = 'lightgrey';
-                button.innerHTML = `<b>${email.sender} - ${email.recipients[0]}</b>: ${email.subject} (${email.timestamp})`;
+                if (email.read === true) {
+                    button.style.backgroundColor = 'grey';
+                } else {
+                    button.style.backgroundColor = 'white';
+                }
+                //button.innerHTML = `<b>${email.sender} - ${email.recipients[0]}</b>: ${email.subject} (${email.timestamp})`;
             } 
             button.name = email.id;
-            //button.classList.add("btn btn-sm btn-outline-primary");
 
             console.log(button);
 
-            // Appending each button to the div
+            // Filling the table-elements
+            td1.innerHTML = `<b>Sent: ${email.sender}</b>;`;
+            td2.innerHTML = `<b>Reciived by: ${email.recipients[0]}</b>;`;
+            td3.innerHTML = `Subject: ${email.subject}`;
+            td4.innerHTML = `(${email.timestamp})`;
+
+            // Appending all table-elements to the table and table to the button 
+            table.append(td1);
+            table.append(td2);
+            table.append(td3);
+            table.append(td4);
+            button.append(table);
+
+            // Appending each button and checkbox to the div
             div.append(input);
             div.append(button);
 
@@ -168,7 +189,7 @@ function load_mailbox(mailbox) {
     })
 }
 
-// Getting the letter from our mailbox function ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// Getting the letter from our mailbox function !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 function email_onload() {
 
     // Show the chosen email

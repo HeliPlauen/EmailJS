@@ -1,5 +1,5 @@
 body {
-    background-color: white;
+    background-color: lightgray;
 }
 
 textarea {
@@ -11,13 +11,24 @@ textarea {
 }
 
 #emails-view button {
-    padding: 15px;
-    margin: 5px;
-    border-radius: 5px;
-    width: 100%;
+    padding: 5px;
+    margin: 2px;
+    width: 95%;
+    border: 1px solid black;
 }
 
 #emails-view button:hover {
-    background-color: yellow;
+    box-shadow: 40px 40px yellow inset;
 }
+
+table {
+    width: 100%;
+}
+
+td {
+    text-align: left;
+    width: 25%;
+}
+
+
 
