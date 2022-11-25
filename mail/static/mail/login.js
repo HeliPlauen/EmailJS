@@ -1,10 +1,6 @@
-document.addEventListener('DOMContentLoaded', function () {    
-    document.querySelector('#login_submit').addEventListener("submit", function () {
+document.addEventListener('DOMContentLoaded', function () {
 
-        // Stop sending the form
-        document.getElementById("login_submit").addEventListener("submit", function (event) {
-            event.preventDefault();
-        });
+    document.querySelector('#login_submit').onsubmit = function () {
 
         // Login and creating localStorage
         var email = document.querySelector('#login_email').value;
@@ -25,10 +21,8 @@ document.addEventListener('DOMContentLoaded', function () {
         var currentUser = localStorage.getItem('currentUser');
         console.log(currentUser);
 
-        // If suxcess - submitting form
-        //var submitter = document.querySelector('#login_input').onclick;
-        document.querySelector('#login_submit').requestSubmit('submit');
-    });
-})
+        return true;
+    };
+});
 
 
